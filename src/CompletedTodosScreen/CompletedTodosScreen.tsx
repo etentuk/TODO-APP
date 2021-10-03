@@ -1,10 +1,8 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
-import {observer} from 'mobx-react-lite';
-import {TodoStore as store} from '../store/store';
+import { View, Text, Button } from 'react-native';
+import { observer } from 'mobx-react-lite';
 
-const CompletedTodosScreen = ({navigation}) => {
-  console.log('nn', store.name);
+const CompletedTodosScreen = ({ navigation }) => {
   return (
     <View>
       <Text>Hello Boys</Text>

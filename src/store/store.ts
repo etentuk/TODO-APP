@@ -1,19 +1,30 @@
-import {makeAutoObservable} from 'mobx';
+import { makeAutoObservable } from 'mobx';
+import { Todo, TodoStoreTypes } from './store.types';
 
-interface TodoStoreTypes {
-  todos: any[];
-  name: string;
-  setName: (name: string) => void;
-  addTodo: (todo: any) => void;
-}
+const newTodo = {
+  name: '',
+  id: 0,
+  details: '',
+  date: new Date(),
+  completed: false,
+};
 
 export const TodoStore: TodoStoreTypes = makeAutoObservable({
-  todos: [],
-  name: '',
-  setName: name => {
-    TodoStore.name = name;
+  todo: newTodo,
+  todos: {},
+  addTodo: (todo: Todo) => {
+    TodoStore.todos[todo.id] = todo;
+    TodoStore.todo = newTodo;
   },
-  addTodo: (todo: any) => {
-    TodoStore.todos.push(todo);
+  setTodo: (todo: Todo) => {
+    todo.id = new Date().getTime();
+    TodoStore.todo = todo;
+  },
+  completedTodos: () => {
+    return Object.values(TodoStore.todos).filter(todo => todo.completed).length;
+  },
+  incompleteTodos: () => {
+    return Object.values(TodoStore.todos).filter(todo => !todo.completed)
+      .length;
   },
 });
