@@ -4,6 +4,6 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
   rules: {
-    curly: ["error", "multi"],
+    curly: ['error', 'multi'],
   },
 };
