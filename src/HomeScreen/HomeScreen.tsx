@@ -1,20 +1,47 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { Button } from 'react-native-paper';
+import { View, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { Button, List } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import { TodoStore } from '../store/store';
+import { Todo } from '../store/store.types';
 
 const HomeScreen = () => {
-  const navigation = useNavigation();
+  const { navigate } = useNavigation();
+  const { completeTodo, incompleteTodos } = TodoStore;
 
+  const completeAlert = (id: number) => {
+    Alert.alert(
+      'Complete Task?',
+      ' Are you sure you want to mark task as completed?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            completeTodo(id);
+          },
+        },
+      ],
+    );
+  };
+
+  const render = ({ item }: { item: Todo }) => (
+    <TouchableOpacity
+      onPress={() => completeAlert(item.id)}
+      onLongPress={() => navigate('AddEdit')}>
+      <List.Item title={item.name} description={item.details} />
+    </TouchableOpacity>
+  );
   return (
     <View>
-      <Text>{JSON.stringify(TodoStore.todos)}</Text>
-      <Button onPress={() => navigation.navigate('Completed')}>
-        Completed
-      </Button>
-      <Button onPress={() => navigation.navigate('AddEdit')}>Add</Button>
+      <FlatList data={incompleteTodos()} renderItem={render} />
+      <Button onPress={() => navigate('Completed')}>Completed</Button>
+      <Button onPress={() => navigate('AddEdit')}>Add</Button>
     </View>
   );
 };
