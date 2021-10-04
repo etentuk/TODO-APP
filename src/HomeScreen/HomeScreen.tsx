@@ -8,9 +8,8 @@ import { Todo } from '../store/store.types';
 
 const HomeScreen: FC = () => {
   const { navigate } = useNavigation();
-  const { completeTodo, incompleteTodos, setTodoWithID, resetTodo } = TodoStore;
-
-  console.log(TodoStore.todos);
+  const { toggleCompleteTodo, incompleteTodos, setTodoWithID, resetTodo } =
+    TodoStore;
 
   const completeAlert = (id: number) => {
     Alert.alert(
@@ -18,14 +17,14 @@ const HomeScreen: FC = () => {
       ' Are you sure you want to mark task as completed?',
       [
         {
-          text: 'Cancel',
+          text: 'No',
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
         {
-          text: 'OK',
+          text: 'Yes',
           onPress: () => {
-            completeTodo(id);
+            toggleCompleteTodo(id);
           },
         },
       ],

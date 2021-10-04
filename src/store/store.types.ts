@@ -5,7 +5,7 @@ export type TodoStoreTypes = {
   setTodo: (todo: Todo) => void;
   setTodoWithID: (id: number) => void;
   completedTodos: () => Todo[];
-  completeTodo: (id: number) => void;
+  toggleCompleteTodo: (id: number) => void;
   incompleteTodos: () => Todo[];
   resetTodo: () => void;
 };
