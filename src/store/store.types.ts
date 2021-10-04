@@ -3,9 +3,11 @@ export type TodoStoreTypes = {
   todos: Record<number, Todo>;
   addTodo: (todo: Todo) => void;
   setTodo: (todo: Todo) => void;
+  setTodoWithID: (id: number) => void;
   completedTodos: () => Todo[];
   completeTodo: (id: number) => void;
   incompleteTodos: () => Todo[];
+  resetTodo: () => void;
 };
 
 export type Todo = {
