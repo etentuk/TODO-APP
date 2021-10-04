@@ -5,10 +5,12 @@ import { TodoStore as store } from '../store/store';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { observer } from 'mobx-react-lite';
 import { state } from './addEditState';
+import { useNavigation } from '@react-navigation/native';
 
 const containerStyle = { backgroundColor: 'white', padding: 20 };
 
-const AddEditTodoScreen = ({ navigation }) => {
+const AddEditTodoScreen = () => {
+  const { navigate } = useNavigation();
   const { date, setDate, open, setOpen } = state;
   const { todo, setTodo } = store;
 
@@ -19,7 +21,7 @@ const AddEditTodoScreen = ({ navigation }) => {
 
   const addTodo = () => {
     store.addTodo(todo);
-    navigation.navigate('Home');
+    navigate('Home');
   };
 
   return (
