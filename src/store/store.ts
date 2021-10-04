@@ -1,19 +1,19 @@
 import { makeAutoObservable } from 'mobx';
 import { Todo, TodoStoreTypes } from './store.types';
 
-const newTodo = {
+const defaultTodo = () => ({
   name: '',
   id: Math.random() * 1000,
   details: '',
   date: new Date(),
   completed: false,
-};
+});
 
 const defaultTodos = {
   100000: {
     name: 'Test',
     id: 100000,
-    details: '',
+    details: 'Mic Check',
     date: new Date(),
     completed: false,
   },
@@ -34,14 +34,17 @@ const defaultTodos = {
 };
 
 export const TodoStore: TodoStoreTypes = makeAutoObservable({
-  todo: newTodo,
+  todo: defaultTodo(),
   todos: defaultTodos,
   addTodo: (todo: Todo) => {
     TodoStore.todos[todo.id] = todo;
-    TodoStore.todo = newTodo;
+    TodoStore.todo = defaultTodo();
   },
   setTodo: (todo: Todo) => {
     TodoStore.todo = todo;
+  },
+  setTodoWithID: (id: number) => {
+    TodoStore.todo = TodoStore.todos[id];
   },
   completeTodo: (id: number) => {
     TodoStore.todos[id].completed = true;
@@ -51,5 +54,8 @@ export const TodoStore: TodoStoreTypes = makeAutoObservable({
   },
   incompleteTodos: () => {
     return Object.values(TodoStore.todos).filter(todo => !todo.completed);
+  },
+  resetTodo: () => {
+    TodoStore.todo = defaultTodo();
   },
 });

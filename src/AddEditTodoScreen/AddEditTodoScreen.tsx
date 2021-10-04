@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Button, Modal } from 'react-native';
+import React, { FC } from 'react';
+import { View, Button, Modal, Alert } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { TodoStore as store } from '../store/store';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const containerStyle = { backgroundColor: 'white', padding: 20 };
 
-const AddEditTodoScreen = () => {
+const AddEditTodoScreen: FC = () => {
   const { navigate } = useNavigation();
   const { date, setDate, open, setOpen } = state;
   const { todo, setTodo } = store;
@@ -19,9 +19,19 @@ const AddEditTodoScreen = () => {
     setOpen(false);
   };
 
-  const addTodo = () => {
-    store.addTodo(todo);
-    navigate('Home');
+  const saveTodo = () => {
+    if (todo.name && todo.details) {
+      store.addTodo(todo);
+      navigate('Home');
+      return;
+    }
+    Alert.alert('Enter Name and Details!', 'To save task, fill both fields!', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+    ]);
   };
 
   return (
@@ -49,7 +59,7 @@ const AddEditTodoScreen = () => {
         <Button title="Cancel" onPress={() => setOpen(false)} />
       </Modal>
       <Button title={todo.date.toDateString()} onPress={() => setOpen(true)} />
-      <Button title="Create Task" onPress={addTodo} />
+      <Button title="Save Task" onPress={saveTodo} />
     </View>
   );
 };
