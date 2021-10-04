@@ -46,8 +46,8 @@ export const TodoStore: TodoStoreTypes = makeAutoObservable({
   setTodoWithID: (id: number) => {
     TodoStore.todo = TodoStore.todos[id];
   },
-  completeTodo: (id: number) => {
-    TodoStore.todos[id].completed = true;
+  toggleCompleteTodo: (id: number) => {
+    TodoStore.todos[id].completed = !TodoStore.todos[id].completed;
   },
   completedTodos: () => {
     return Object.values(TodoStore.todos).filter(todo => todo.completed);
