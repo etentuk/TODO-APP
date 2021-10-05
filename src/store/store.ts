@@ -3,30 +3,30 @@ import { Todo, TodoStoreTypes } from './store.types';
 
 const defaultTodo = () => ({
   name: '',
-  id: Math.random() * 1000,
+  id: (Math.random() * 1000).toString(),
   details: '',
   date: new Date(),
   completed: false,
 });
 
 const defaultTodos = {
-  100000: {
+  '100000': {
     name: 'Test',
-    id: 100000,
+    id: '100000',
     details: 'Mic Check',
     date: new Date(),
     completed: false,
   },
-  100001: {
+  '100001': {
     name: 'Test1',
-    id: 100001,
+    id: '100001',
     details: 'Mic Check',
     date: new Date(),
     completed: false,
   },
-  100002: {
+  '100002': {
     name: 'Test2',
-    id: 100002,
+    id: '100002',
     details: 'Mic Check',
     date: new Date(),
     completed: false,
@@ -43,10 +43,10 @@ export const TodoStore: TodoStoreTypes = makeAutoObservable({
   setTodo: (todo: Todo) => {
     TodoStore.todo = todo;
   },
-  setTodoWithID: (id: number) => {
+  setTodoWithID: (id: string) => {
     TodoStore.todo = TodoStore.todos[id];
   },
-  toggleCompleteTodo: (id: number) => {
+  toggleCompleteTodo: (id: string) => {
     TodoStore.todos[id].completed = !TodoStore.todos[id].completed;
   },
   completedTodos: () => {
