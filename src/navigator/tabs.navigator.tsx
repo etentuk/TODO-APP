@@ -10,6 +10,7 @@ import {
 import AddEditTodoScreen from '../AddEditTodoScreen/AddEditTodoScreen';
 import CompletedTodosScreen from '../CompletedTodosScreen/CompletedTodosScreen';
 import { StyleSheet } from 'react-native';
+import { globalStyles } from '../global.styles';
 
 type TabParams = {
   Home: undefined;
@@ -24,7 +25,6 @@ const Tabs: FC = () => {
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: styles.tabBar,
-        // headerLeft: false,
       }}>
       <Tab.Screen
         name="Home"
@@ -34,7 +34,6 @@ const Tabs: FC = () => {
           tabBarIcon: ({ focused }) => (
             <FontAwesomeIcon
               icon={faHome}
-              size={30}
               style={styles.icon}
               color={focused ? '#0080ff' : '#9e9898'}
             />
@@ -81,18 +80,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tabBar: {
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.5,
-    elevation: 5,
-    backgroundColor: 'white',
+    ...globalStyles.shadowButton,
     flex: 1,
     position: 'absolute',
     bottom: 25,
     left: 20,
     right: 20,
-    borderRadius: 15,
   },
   plusCircle: {
     top: 15,
