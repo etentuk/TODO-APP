@@ -1,24 +1,55 @@
-import React from 'react';
-import {View, Text, TextInput} from 'react-native';
-import {Button} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
-import {observer} from 'mobx-react-lite';
-import {TodoStore} from '../store/store';
+import React, { FC } from 'react';
+import { View, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { observer } from 'mobx-react-lite';
+import { TodoStore } from '../store/store';
+import { Todo } from '../store/store.types';
+import { globalStyles } from '../global.styles';
+import ListItem from '../components/ListItem';
 
-const HomeScreen = () => {
-  const navigation = useNavigation();
+const HomeScreen: FC = () => {
+  const { navigate } = useNavigation();
+  const { toggleCompleteTodo, incompleteTodos, setTodoWithID } = TodoStore;
 
+  const completeAlert = (id: string) => {
+    Alert.alert(
+      'Complete Task?',
+      ' Are you sure you want to mark task as completed?',
+      [
+        {
+          text: 'No',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => {
+            toggleCompleteTodo(id);
+          },
+        },
+      ],
+    );
+  };
+
+  const editTask = (id: string) => {
+    setTodoWithID(id);
+    navigate('AddEdit', { action: 'Edit Task' });
+  };
+
+  const render = ({ item }: { item: Todo }) => (
+    <TouchableOpacity
+      onPress={() => completeAlert(item.id)}
+      onLongPress={() => editTask(item.id)}>
+      <ListItem taskName={item.name} date={item.date} />
+    </TouchableOpacity>
+  );
   return (
-    <View>
-      <Text>Hello Boys</Text>
-      <TextInput
-        onChangeText={e => TodoStore.setName(e)}
-        placeholder="Type here to translate!"
+    <View style={globalStyles.container}>
+      <FlatList
+        data={incompleteTodos()}
+        renderItem={render}
+        keyExtractor={item => item.id.toString()}
       />
-      <Button onPress={() => navigation.navigate('Completed')}>
-        Completed
-      </Button>
-      <Button onPress={() => navigation.navigate('Edit')}>Edit</Button>
     </View>
   );
 };

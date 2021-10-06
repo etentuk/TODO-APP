@@ -1,24 +1,15 @@
 import React from 'react';
-import {Provider as PaperProvider} from 'react-native-paper';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import HomeScreen from './src/HomeScreen/HomeScreen';
-import AddEditTodoScreen from './src/AddEditTodoScreen/AddEditTodoScreen';
-import CompletedTodosScreen from './src/CompletedTodosScreen/CompletedTodosScreen';
-
-const Stack = createNativeStackNavigator();
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import Tabs from './src/navigator/tabs.navigator';
 
 const App = () => {
   return (
-    <PaperProvider>
+    <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Edit" component={AddEditTodoScreen} />
-          <Stack.Screen name="Completed" component={CompletedTodosScreen} />
-        </Stack.Navigator>
+        <Tabs />
       </NavigationContainer>
-    </PaperProvider>
+    </SafeAreaProvider>
   );
 };
 
