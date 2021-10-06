@@ -8,6 +8,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Text,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faAlignLeft } from '@fortawesome/free-solid-svg-icons';
@@ -44,45 +46,47 @@ const AddEditTodoScreen: FC = () => {
   };
 
   return (
-    <SafeAreaView style={globalStyles.container}>
-      <View style={styles.myTaskView}>
-        <TextInput
-          style={styles.myTaskInput}
-          placeholder="My Task"
-          value={todo.name}
-          onChangeText={name => setTodo({ ...todo, name })}
-        />
-      </View>
-      <View style={styles.detailsView}>
-        <View style={styles.detailsIcon}>
-          <FontAwesomeIcon icon={faAlignLeft} color="#474747" />
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <SafeAreaView style={globalStyles.container}>
+        <View style={styles.myTaskView}>
+          <TextInput
+            style={styles.myTaskInput}
+            placeholder="My Task"
+            value={todo.name}
+            onChangeText={name => setTodo({ ...todo, name })}
+          />
         </View>
-        <TextInput
-          style={styles.detailsInput}
-          placeholder="Details"
-          value={todo.details}
-          onChangeText={details => setTodo({ ...todo, details })}
-        />
-      </View>
-      {open && (
-        <ConfirmDate
-          date={date}
-          setDate={setDate}
-          setOpen={setOpen}
-          onConfirmDate={onConfirmDate}
-        />
-      )}
-      {!open && (
-        <View style={styles.dateTextContainer}>
-          <TouchableOpacity onPress={() => setOpen(true)}>
-            <Text style={styles.dateText}>{todo.date.toDateString()}</Text>
-          </TouchableOpacity>
+        <View style={styles.detailsView}>
+          <View style={styles.detailsIcon}>
+            <FontAwesomeIcon icon={faAlignLeft} color="#474747" />
+          </View>
+          <TextInput
+            style={styles.detailsInput}
+            placeholder="Details"
+            value={todo.details}
+            onChangeText={details => setTodo({ ...todo, details })}
+          />
         </View>
-      )}
-      <View style={styles.saveButton}>
-        <Button title="Save Task" onPress={saveTodo} color="black" />
-      </View>
-    </SafeAreaView>
+        {open && (
+          <ConfirmDate
+            date={date}
+            setDate={setDate}
+            setOpen={setOpen}
+            onConfirmDate={onConfirmDate}
+          />
+        )}
+        {!open && (
+          <View style={styles.dateTextContainer}>
+            <TouchableOpacity onPress={() => setOpen(true)}>
+              <Text style={styles.dateText}>{todo.date.toDateString()}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        <View style={styles.saveButton}>
+          <Button title="Save Task" onPress={saveTodo} color="black" />
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -121,6 +125,7 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 15,
+    color: '#474747',
   },
 });
 

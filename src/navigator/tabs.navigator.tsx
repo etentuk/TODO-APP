@@ -9,8 +9,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import AddEditTodoScreen from '../AddEditTodoScreen/AddEditTodoScreen';
 import CompletedTodosScreen from '../CompletedTodosScreen/CompletedTodosScreen';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../global.styles';
+import { TodoStore } from '../store/store';
+import { observer } from 'mobx-react';
 
 type TabParams = {
   Home: undefined;
@@ -31,6 +33,7 @@ const Tabs: FC = () => {
         component={HomeScreen}
         options={{
           title: 'My Tasks',
+          tabBarBadge: TodoStore.incompleteTodos().length,
           tabBarIcon: ({ focused }) => (
             <FontAwesomeIcon
               icon={faHome}
@@ -43,7 +46,17 @@ const Tabs: FC = () => {
       <Tab.Screen
         name="AddEdit"
         component={AddEditTodoScreen}
-        options={() => ({
+        options={({ route, navigation }) => ({
+          title: route.params.action,
+          tabBarButton: props => (
+            <TouchableOpacity
+              {...props}
+              onPress={() => {
+                TodoStore.resetTodo();
+                navigation.navigate('AddEdit', { action: 'Add New Task' });
+              }}
+            />
+          ),
           tabBarIcon: ({ focused }) => (
             <FontAwesomeIcon
               icon={faPlusCircle}
@@ -59,6 +72,7 @@ const Tabs: FC = () => {
         component={CompletedTodosScreen}
         options={{
           title: 'Completed',
+          tabBarBadge: TodoStore.completedTodos().length,
           tabBarIcon: ({ focused }) => (
             <FontAwesomeIcon
               icon={faTasks}
@@ -87,9 +101,6 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
   },
-  plusCircle: {
-    top: 15,
-  },
 });
 
-export default Tabs;
+export default observer(Tabs);

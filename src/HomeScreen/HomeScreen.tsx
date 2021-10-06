@@ -8,7 +8,7 @@ import { globalStyles } from '../global.styles';
 import ListItem from '../components/ListItem';
 
 const HomeScreen: FC = () => {
-  const { navigate, setOptions } = useNavigation();
+  const { navigate } = useNavigation();
   const { toggleCompleteTodo, incompleteTodos, setTodoWithID } = TodoStore;
 
   const completeAlert = (id: string) => {
@@ -33,8 +33,7 @@ const HomeScreen: FC = () => {
 
   const editTask = (id: string) => {
     setTodoWithID(id);
-    navigate('AddEdit', { title: 'Edit Task' }) &&
-      setOptions({ title: 'Edit Task' });
+    navigate('AddEdit', { action: 'Edit Task' });
   };
 
   const render = ({ item }: { item: Todo }) => (

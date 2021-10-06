@@ -10,12 +10,11 @@ const CompletedTodosScreen = () => {
   const { completedTodos, toggleCompleteTodo } = TodoStore;
   const setIncompleteTodo = (id: string) => {
     Alert.alert(
-      'Complete Task?',
+      'Recover Task?',
       ' Are you sure you want to mark task as incomplete?',
       [
         {
           text: 'No',
-          onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
         {
