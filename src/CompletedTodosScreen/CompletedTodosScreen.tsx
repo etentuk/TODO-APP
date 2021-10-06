@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, Alert, TouchableOpacity } from 'react-native';
+import { FlatList, Alert, TouchableOpacity, SafeAreaView } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import { Todo } from '../store/store.types';
 import { TodoStore } from '../store/store';
@@ -32,13 +32,13 @@ const CompletedTodosScreen = () => {
     </TouchableOpacity>
   );
   return (
-    <View style={globalStyles.container}>
+    <SafeAreaView style={globalStyles.container}>
       <FlatList
         data={completedTodos()}
         renderItem={render}
         keyExtractor={item => item.id}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

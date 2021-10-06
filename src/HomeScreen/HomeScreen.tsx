@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { FlatList, TouchableOpacity, Alert, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import { TodoStore } from '../store/store';
@@ -18,7 +18,6 @@ const HomeScreen: FC = () => {
       [
         {
           text: 'No',
-          onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
         {
@@ -44,13 +43,13 @@ const HomeScreen: FC = () => {
     </TouchableOpacity>
   );
   return (
-    <View style={globalStyles.container}>
+    <SafeAreaView style={globalStyles.container}>
       <FlatList
         data={incompleteTodos()}
         renderItem={render}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item => item.id}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
