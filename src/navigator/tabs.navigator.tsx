@@ -10,7 +10,6 @@ import {
 import AddEditTodoScreen from '../AddEditTodoScreen/AddEditTodoScreen';
 import CompletedTodosScreen from '../CompletedTodosScreen/CompletedTodosScreen';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { globalStyles } from '../global.styles';
 import { TodoStore } from '../store/store';
 import { observer } from 'mobx-react';
 
@@ -45,6 +44,7 @@ const Tabs: FC = () => {
       />
       <Tab.Screen
         name="AddEdit"
+        initialParams={{ action: 'Add New Task' }}
         component={AddEditTodoScreen}
         options={({ route, navigation }) => ({
           title: route.params.action,
@@ -94,12 +94,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tabBar: {
-    ...globalStyles.shadowButton,
     flex: 1,
+    display: 'flex',
     position: 'absolute',
     bottom: 25,
     left: 20,
     right: 20,
+    backgroundColor: 'none',
   },
 });
 

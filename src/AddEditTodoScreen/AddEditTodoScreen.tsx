@@ -36,54 +36,61 @@ const AddEditTodoScreen: FC = () => {
       navigate('Home');
       return;
     }
-    Alert.alert('Enter Name and Details!', 'To save task, fill both fields!', [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-    ]);
+    Alert.alert(
+      'Enter Task Name and Details!',
+      'To save task, fill both fields!',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+      ],
+    );
   };
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <SafeAreaView style={globalStyles.container}>
-        <View style={styles.myTaskView}>
-          <TextInput
-            style={styles.myTaskInput}
-            placeholder="My Task"
-            value={todo.name}
-            onChangeText={name => setTodo({ ...todo, name })}
-          />
-        </View>
-        <View style={styles.detailsView}>
-          <View style={styles.detailsIcon}>
-            <FontAwesomeIcon icon={faAlignLeft} color="#474747" />
+        <View style={styles.taskContainer}>
+          <View style={styles.myTaskView}>
+            <TextInput
+              style={styles.myTaskInput}
+              placeholder="My Task"
+              value={todo.name}
+              onChangeText={name => setTodo({ ...todo, name })}
+            />
           </View>
-          <TextInput
-            style={styles.detailsInput}
-            placeholder="Details"
-            value={todo.details}
-            onChangeText={details => setTodo({ ...todo, details })}
-          />
-        </View>
-        {open && (
-          <ConfirmDate
-            date={date}
-            setDate={setDate}
-            setOpen={setOpen}
-            onConfirmDate={onConfirmDate}
-          />
-        )}
-        {!open && (
-          <View style={styles.dateTextContainer}>
-            <TouchableOpacity onPress={() => setOpen(true)}>
-              <Text style={styles.dateText}>{todo.date.toDateString()}</Text>
-            </TouchableOpacity>
+          <View style={styles.detailsView}>
+            <View style={styles.detailsIcon}>
+              <FontAwesomeIcon icon={faAlignLeft} color="#474747" />
+            </View>
+            <TextInput
+              style={styles.detailsInput}
+              placeholder="Details"
+              value={todo.details}
+              onChangeText={details => setTodo({ ...todo, details })}
+            />
           </View>
-        )}
-        <View style={styles.saveButton}>
-          <Button title="Save Task" onPress={saveTodo} color="black" />
+          {open && (
+            <ConfirmDate
+              date={date}
+              setDate={setDate}
+              setOpen={setOpen}
+              onConfirmDate={onConfirmDate}
+            />
+          )}
+          {!open && (
+            <View style={styles.dateTextContainer}>
+              <TouchableOpacity onPress={() => setOpen(true)}>
+                <Text style={styles.dateText}>{todo.date.toDateString()}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+        <View style={styles.buttonContainer}>
+          <View style={styles.saveButton}>
+            <Button title="Save Task" onPress={saveTodo} color="black" />
+          </View>
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
@@ -91,6 +98,7 @@ const AddEditTodoScreen: FC = () => {
 };
 
 const styles = StyleSheet.create({
+  taskContainer: { minHeight: '65%' },
   myTaskInput: {
     fontSize: 30,
     marginLeft: 15,
@@ -111,12 +119,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     flex: 1,
   },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   saveButton: {
-    padding: 10,
-    bottom: 120,
-    left: 20,
-    right: 20,
-    position: 'absolute',
+    width: '65%',
     ...globalStyles.shadowButton,
   },
   dateTextContainer: {
