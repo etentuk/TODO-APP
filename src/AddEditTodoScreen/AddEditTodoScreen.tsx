@@ -1,13 +1,22 @@
 import React, { FC } from 'react';
-import { View, Button, Modal, Alert } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import {
+  StyleSheet,
+  Button,
+  Alert,
+  TextInput,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faAlignLeft } from '@fortawesome/free-solid-svg-icons';
 import { TodoStore as store } from '../store/store';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { observer } from 'mobx-react-lite';
 import { state } from './addEditState';
 import { useNavigation } from '@react-navigation/native';
-
-const containerStyle = { backgroundColor: 'white', padding: 20 };
+import { globalStyles } from '../global.styles';
+import ConfirmDate from './ConfirmDate';
 
 const AddEditTodoScreen: FC = () => {
   const { navigate } = useNavigation();
@@ -35,33 +44,84 @@ const AddEditTodoScreen: FC = () => {
   };
 
   return (
-    <View>
-      <TextInput
-        label="Name"
-        value={todo.name}
-        onChangeText={name => setTodo({ ...todo, name })}
-      />
-      <TextInput
-        label="Details"
-        value={todo.details}
-        onChangeText={details => setTodo({ ...todo, details })}
-      />
-      <Modal visible={open} style={containerStyle}>
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode="date"
-          display="spinner"
-          minimumDate={new Date()}
-          onChange={(e, selectedDate) => setDate(selectedDate!)}
+    <SafeAreaView style={globalStyles.container}>
+      <View style={styles.myTaskView}>
+        <TextInput
+          style={styles.myTaskInput}
+          placeholder="My Task"
+          value={todo.name}
+          onChangeText={name => setTodo({ ...todo, name })}
         />
-        <Button title="Confirm" onPress={onConfirmDate} />
-        <Button title="Cancel" onPress={() => setOpen(false)} />
-      </Modal>
-      <Button title={todo.date.toDateString()} onPress={() => setOpen(true)} />
-      <Button title="Save Task" onPress={saveTodo} />
-    </View>
+      </View>
+      <View style={styles.detailsView}>
+        <View style={styles.detailsIcon}>
+          <FontAwesomeIcon icon={faAlignLeft} color="#474747" />
+        </View>
+        <TextInput
+          style={styles.detailsInput}
+          placeholder="Details"
+          value={todo.details}
+          onChangeText={details => setTodo({ ...todo, details })}
+        />
+      </View>
+      {open && (
+        <ConfirmDate
+          date={date}
+          setDate={setDate}
+          setOpen={setOpen}
+          onConfirmDate={onConfirmDate}
+        />
+      )}
+      {!open && (
+        <View style={styles.dateTextContainer}>
+          <TouchableOpacity onPress={() => setOpen(true)}>
+            <Text style={styles.dateText}>{todo.date.toDateString()}</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      <View style={styles.saveButton}>
+        <Button title="Save Task" onPress={saveTodo} color="black" />
+      </View>
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  myTaskInput: {
+    fontSize: 30,
+    marginLeft: 15,
+    marginTop: 15,
+  },
+  myTaskView: { marginBottom: 10 },
+  detailsInput: {
+    flex: 9,
+    fontSize: 15,
+    alignItems: 'flex-end',
+  },
+  detailsView: {
+    flexDirection: 'row',
+  },
+  detailsIcon: {
+    marginLeft: 15,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    flex: 1,
+  },
+  saveButton: {
+    padding: 10,
+    bottom: 120,
+    left: 20,
+    right: 20,
+    position: 'absolute',
+    ...globalStyles.shadowButton,
+  },
+  dateTextContainer: {
+    marginLeft: 15,
+    marginTop: 10,
+  },
+  dateText: {
+    fontSize: 15,
+  },
+});
 
 export default observer(AddEditTodoScreen);
