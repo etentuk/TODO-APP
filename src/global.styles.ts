@@ -16,6 +16,6 @@ export const globalStyles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     backgroundColor: 'white',
-    borderRadius: 15,
+    borderRadius: 10,
   },
 });

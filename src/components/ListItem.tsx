@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { globalStyles } from '../global.styles';
 
 interface ListItemProps {
   date: Date;
@@ -23,13 +24,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     padding: 15,
-    backgroundColor: 'white',
     margin: 8,
-    borderRadius: 5,
-    shadowColor: 'black',
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    shadowOffset: { height: 3, width: 0.3 },
+    ...globalStyles.shadowButton,
   },
   text: {
     flex: 1,
